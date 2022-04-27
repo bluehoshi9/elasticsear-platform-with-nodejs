@@ -4,6 +4,10 @@ const docController = require('./../controller/documentController');
 
 router.route('/').post(docController.createDocument);
 
-router.route('/:index/:id').delete(docController.deleteDocument);
+router
+  .route('/:index/:id')
+  .get(docController.getDocument)
+  .patch(docController.updateDocument)
+  .delete(docController.deleteDocument);
 
 module.exports = router;
