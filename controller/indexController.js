@@ -3,7 +3,7 @@ const client = require('./../connection');
 exports.getAllIndices = async (req, res) => {
   try {
     const indices = await client.indices.get({
-      index: '_all'
+      index: '_all',
     });
 
     res.status(200).json({
@@ -17,6 +17,7 @@ exports.getAllIndices = async (req, res) => {
     });
   }
 };
+
 exports.getIndex = async (req, res) => {
   try {
     const index = await client.indices.get({
