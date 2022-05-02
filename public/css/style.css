@@ -40,7 +40,7 @@ body {
 
 .nav-link:hover {
   color: #fff;
-  transform: scale(1.5);
+  transform: scale(1.05);
   text-shadow: 0 0 3px white;
 }
 
@@ -77,7 +77,7 @@ body {
   color: white;
 }
 
-#search-submit:hover{
-  background-color:#1c7ed6;
+#search-submit:hover {
+  background-color: #1c7ed6;
   transform: translateY(-1px);
 }

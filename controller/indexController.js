@@ -38,10 +38,11 @@ exports.getIndex = async (req, res) => {
 
 exports.createIndex = async (req, res) => {
   try {
-    await client.indices.create(req.body);
+    const index = await client.indices.create(req.body);
 
     res.status(200).json({
       status: 'success',
+      data: index,
     });
   } catch (err) {
     res.status(400).json({
