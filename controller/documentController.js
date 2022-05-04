@@ -72,3 +72,59 @@ exports.deleteDocument = async (req, res) => {
     });
   }
 };
+
+exports.getAllDocuments = async (req, res) => {
+  try {
+    let query = {};
+
+    if (Object.keys(req.query).length === 0) {
+      query = { match_all: {} };
+    } else {
+      query = { match: req.query };
+    }
+
+    const documents = await client.search({
+      index: req.params.index,
+      body: {
+        query: query,
+      },
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: documents.hits.hits,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};
+
+//--------------
+exports.multiMatch = async (req, res) => {
+  try {
+    const documents = await client.search({
+      index: req.params.index,
+      body: {
+        query: {
+          multi_match: {
+            query: 'london',
+            fields: '*',
+          },
+        },
+      },
+    });
+
+    res.status(200).json({
+      status: 'success',
+      data: documents.hits.hits,
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: 'fail',
+      message: err,
+    });
+  }
+};

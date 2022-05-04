@@ -4,10 +4,15 @@ exports.getIndex = async (req, res) => {
   const indices = await client.indices.get({
     index: '_all',
   });
+  const final = [];
 
+  for (const index in indices) {
+    final.push(index);
+  }
+  
   res.status(200).render('index', {
     title: 'Index',
-    indices: JSON.stringify(indices.mappings),
+    final,
   });
 };
 

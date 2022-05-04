@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const indexRouter = require('./routes/indexRoutes');
 const documentRouter = require('./routes/documentRoutes');
 const viewRouter = require('./routes/viewRoutes');

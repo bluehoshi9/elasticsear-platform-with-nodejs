@@ -5,6 +5,10 @@ const docController = require('./../controller/documentController');
 router.route('/').post(docController.createDocument);
 
 router
+  .route('/:index')
+  .get(docController.getAllDocuments);
+
+router
   .route('/:index/:id')
   .get(docController.getDocument)
   .patch(docController.updateDocument)
