@@ -101,30 +101,3 @@ exports.getAllDocuments = async (req, res) => {
     });
   }
 };
-
-//--------------
-exports.multiMatch = async (req, res) => {
-  try {
-    const documents = await client.search({
-      index: req.params.index,
-      body: {
-        query: {
-          multi_match: {
-            query: 'london',
-            fields: '*',
-          },
-        },
-      },
-    });
-
-    res.status(200).json({
-      status: 'success',
-      data: documents.hits.hits,
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
