@@ -18,5 +18,10 @@ html
       .search-box 
         form.search-form(action="") 
           .div 
-            input#search-input(type="text" placeholder="Search query")
+            input#search-input(type="text" placeholder="Type something")
             input#search-submit(type="submit" value="Search")
+
+    h1= data
+    each ne in newData
+      h2 #{ne}
+      hr
