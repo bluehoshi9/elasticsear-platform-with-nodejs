@@ -80,17 +80,19 @@ exports.getAllDocuments = async (req, res) => {
     if (Object.keys(req.query).length === 0) {
       query = { match_all: {} };
     } else {
-      query = { match: req.query };
+      query = changeQueryString(req.query);
     }
 
     const documents = await client.search({
       index: req.params.index,
       body: {
+        size: 100,
         query: query,
       },
     });
 
     res.status(200).json({
+      results: documents.hits.hits.length,
       status: 'success',
       data: documents.hits.hits,
     });
@@ -101,3 +103,15 @@ exports.getAllDocuments = async (req, res) => {
     });
   }
 };
+
+function changeQueryString(origin) {
+  const result = {
+    bool: {
+      must: [],
+    },
+  };
+  for (const key in origin) {
+    result.bool.must.push({ match: { [key]: origin[key] } });
+  }
+  return result;
+}
