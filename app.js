@@ -18,4 +18,11 @@ app.use('/api/v1/index', indexRouter);
 app.use('/api/v1/document', documentRouter);
 app.use('/api/v1/search', searchRouter);
 
+// app.get('/searchES', function (req, res) {
+//   var id = req.query.query_string;
+//   console.log(id);
+//   res.render('search', {
+//     title: 'test',
+//   });
+// });
 module.exports = app;

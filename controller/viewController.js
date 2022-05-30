@@ -64,15 +64,21 @@ exports.getDocument = async (req, res) => {
 };
 
 exports.doSearch = async (req, res) => {
-  const queryString = req.query;
+  let queryString = '';
+
+  if (!req.query.query_string) {
+    queryString = '';
+  } else {
+    queryString = req.query.query_string;
+  }
 
   const documents = await client.search({
     index: req.params.index,
     body: {
+      size: 100,
       query: {
         multi_match: {
-          // query: queryString.query_string,
-          query: 'london',
+          query: queryString,
           fields: ['*'],
         },
       },
@@ -106,3 +112,9 @@ exports.doSearch = async (req, res) => {
     newData,
   });
 };
+
+// document.querySelector('.search-box ').addEventListener('submit', (e) => {
+//   e.preventDefault();
+//   const query = document.getElementById('text').value;
+//   console.log(query);
+// });

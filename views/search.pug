@@ -9,16 +9,12 @@ html
   body
     //NAV
     include _header
-    
-    //- h1 this is h1
-    //- each fi in final
-    //-   h1= fi
 
     section.search 
       .search-box 
-        form.search-form(action="") 
+        form.search-form(method='GET' action="/search") 
           .div 
-            input#search-input(type="text" placeholder="Type something")
+            input#search-input(type="text" name='query_string' placeholder="Type something")
             input#search-submit(type="submit" value="Search")
 
     h1= data
