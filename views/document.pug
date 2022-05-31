@@ -10,9 +10,48 @@ html
     //NAV
     include _header
 
-    button Create new document
-    each ne in newData
-      h2 #{ne}
-      button Delete
-      button Update
+    //Create Document
+    section
+        form(method='GET' action="/document") 
+          .div 
+            input(type="text" name='index' placeholder="Type index" value='olympic_events')
+            input(type="text" name='docid' placeholder="Type document id" value='9999')
+            input(type="text" name='noc' placeholder="Type noc" value='')
+            input(type="text" name='sex' placeholder="Type sex" value='M')
+            input(type="text" name='city' placeholder="Type city" value='HCM')
+            input(type="text" name='weight' placeholder="Type weight" value='NA')
+            input(type="text" name='name' placeholder="Type name" value='Pham Van A')
+            input(type="text" name='sport' placeholder="Type sport" value='Football')
+            input(type="text" name='games' placeholder="Type games" value='2022 Summer')
+            input(type="text" name='event' placeholder="Type event" value='Men\'s Football')
+            input(type="text" name='height' placeholder="Type height" value='NA')
+            input(type="text" name='team' placeholder="Type team" value='Vietnam')
+            input(type="text" name='id' placeholder="Type id" value='0')
+            input(type="text" name='medal' placeholder="Type medal" value='NA')
+            input(type="text" name='age' placeholder="Type age" value='30')
+
+            input(type="submit" value="Create | Update")
+
+    each documents in documentHits
+      h2 Document's Information
+        h3=`Index name: ${documents._index}`
+        h3=`Document's Id: ${documents._id}`
+      h2 Document's Data
+        h3=`NOC: ${documents._source.noc}`
+        h3=`Sex: ${documents._source.sex}`
+        h3=`City: ${documents._source.city}`
+        h3=`Weight: ${documents._source.weight}`
+        h3=`Name: ${documents._source.name}`
+        h3=`Sport: ${documents._source.sport}`
+        h3=`Games: ${documents._source.games}`
+        h3=`Event: ${documents._source.event}`
+        h3=`Height: ${documents._source.height}`
+        h3=`Team: ${documents._source.team}`
+        h3=`Id: ${documents._source.id}`
+        h3=`Medal: ${documents._source.medal}`
+        h3=`Age: ${documents._source.age}`
+
+      p
+        form(method='GET' action=`/document/${documents._index}/${documents._id}?_method=DELETE`)
+          button(type='submit') Delete
       hr
