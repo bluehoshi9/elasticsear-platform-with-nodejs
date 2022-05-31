@@ -16,11 +16,10 @@ html
             input#search-input(type="text" name='new_index' placeholder="Type new index name")
             input#search-submit(type="submit" value="Create")
 
-    each index in indicesString
-      h1= index
-      - index = index.split(' ').join('_');
-
-      p
-        form(method='GET' action=`/index/${index}?_method=DELETE`)
-          button(type='submit') Delete
-      hr
+    .container-index
+      each index in indicesString
+        .element-index
+          h1= index
+          - index = index.split(' ').join('_');
+          form(method='GET' action=`/index/${index}?_method=DELETE`)
+            button.btn.btn-index(type='submit') Delete

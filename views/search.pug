@@ -17,23 +17,64 @@ html
             input#search-input(type="text" name='query_string' placeholder="Type something")
             input#search-submit(type="submit" value="Search")
 
-    h1= data
-    each documents in documentHits
-      h2 Document's Information
-        h3=`Index name: ${documents._index}`
-        h3=`Document's Id: ${documents._id}`
-      h2 Document's Data
-        h3=`NOC: ${documents._source.noc}`
-        h3=`Sex: ${documents._source.sex}`
-        h3=`City: ${documents._source.city}`
-        h3=`Weight: ${documents._source.weight}`
-        h3=`Name: ${documents._source.name}`
-        h3=`Sport: ${documents._source.sport}`
-        h3=`Games: ${documents._source.games}`
-        h3=`Event: ${documents._source.event}`
-        h3=`Height: ${documents._source.height}`
-        h3=`Team: ${documents._source.team}`
-        h3=`Id: ${documents._source.Id}`
-        h3=`Medal: ${documents._source.medal}`
-        h3=`Age: ${documents._source.age}`
-      hr
+    //- each documents in documentHits
+    //-   h2 Document's Information
+    //-     h3=`Index name: ${documents._index}`
+    //-     h3=`Document's Id: ${documents._id}`
+    //-   h2 Document's Data
+    //-     h3=`NOC: ${documents._source.noc}`
+    //-     h3=`Sex: ${documents._source.sex}`
+    //-     h3=`City: ${documents._source.city}`
+    //-     h3=`Weight: ${documents._source.weight}`
+    //-     h3=`Name: ${documents._source.name}`
+    //-     h3=`Sport: ${documents._source.sport}`
+    //-     h3=`Games: ${documents._source.games}`
+    //-     h3=`Event: ${documents._source.event}`
+    //-     h3=`Height: ${documents._source.height}`
+    //-     h3=`Team: ${documents._source.team}`
+    //-     h3=`Id: ${documents._source.Id}`
+    //-     h3=`Medal: ${documents._source.medal}`
+    //-     h3=`Age: ${documents._source.age}`
+    //-   hr
+    - let hide = ''
+    - if(documentHits.length === 0) hide='inactive';
+    .container-document(class=`${hide}`)
+      p= `Results: ${documentHits.length}`
+        table.document-table
+          tr
+            th Index name
+            th Document ID
+            th NOC
+            th Sex
+            th City
+            th Weight
+            th Name
+            th Sport
+            th Games
+            th Event
+            th Height
+            th Team
+            th Id
+            th Medal
+            th Age
+            th Action
+          each documents in documentHits
+            tr
+              td= documents._index 
+              td= documents._id
+              td= documents._source.noc
+              td= documents._source.sex
+              td= documents._source.city
+              td= documents._source.weight
+              td= documents._source.name
+              td= documents._source.sport
+              td= documents._source.games
+              td= documents._source.event
+              td= documents._source.height
+              td= documents._source.team
+              td= documents._source.id
+              td= documents._source.medal
+              td= documents._source.age
+              td
+                form(method='GET' action=`/document/${documents._index}/${documents._id}?_method=DELETE`)
+                  button(type='submit') Delete

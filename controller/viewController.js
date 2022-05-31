@@ -7,17 +7,17 @@ exports.getIndex = async (req, res) => {
       index: req.params.index,
     });
 
-    // res.redirect('/index');
+    return res.redirect(req.get('referer'));
   }
 
   //Create index
   if (req.query.new_index) {
     let createString = req.query.new_index;
-    createString = createString.split(' ').join('_');
+    createString = createString.toLowerCase().split(' ').join('_');
     createString = `{"index":"${createString}"}`;
 
     await client.indices.create(JSON.parse(createString));
-    // res.redirect('/index');
+    return res.redirect(req.get('referer'));
   }
 
   //Query index
@@ -91,27 +91,6 @@ exports.getDocument = async (req, res) => {
 
   let documentHits = documents.hits.hits;
 
-  // const final = [];
-  // documentHits.forEach((element) => {
-  //   final.push(element._index);
-  //   final.push(element._id);
-  //   final.push(element._source);
-  // });
-
-  // let newData = [];
-  // for (let i = 0; i < final.length; i += 3) {
-  //   let three = [];
-  //   three.push(final[i]);
-  //   three.push(final[i + 1]);
-  //   three.push(Object.keys(final[i + 2]).map((key) => final[i + 2][key]));
-
-  //   newData.push(three);
-  // }
-
-  // for (let i = 0; i < newData.length; i++) {
-  //   newData[i] = newData[i].flat();
-  // }
-
   res.status(200).render('document', {
     title: 'Document',
     documentHits,
@@ -130,7 +109,7 @@ exports.doSearch = async (req, res) => {
   const documents = await client.search({
     index: req.params.index,
     body: {
-      size: 100,
+      size: 10000,
       query: {
         multi_match: {
           query: queryString,
@@ -141,26 +120,8 @@ exports.doSearch = async (req, res) => {
   });
 
   let documentHits = documents.hits.hits;
-  // const final = [];
-  // documentHits.forEach((element) => {
-  //   final.push(element._index);
-  //   final.push(element._id);
-  //   final.push(element._source);
-  // });
+  if (queryString == '') documentHits = []; //Bug
 
-  // let newData = [];
-  // for (let i = 0; i < final.length; i += 3) {
-  //   let three = [];
-  //   three.push(final[i]);
-  //   three.push(final[i + 1]);
-  //   three.push(Object.keys(final[i + 2]).map((key) => final[i + 2][key]));
-
-  //   newData.push(three);
-  // }
-
-  // for (let i = 0; i < newData.length; i++) {
-  //   newData[i] = newData[i].flat();
-  // }
   res.status(200).render('search', {
     title: 'Search',
     documentHits,

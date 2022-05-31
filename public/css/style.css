@@ -30,7 +30,8 @@ body {
   list-style: none;
 }
 
-.nav-link {
+.nav-link a:visited,
+.nav-link a{
   color: #e7f5ff;
   font-size: 3.6rem;
   text-decoration: none;
@@ -38,7 +39,8 @@ body {
   transition: all 0.3s;
 }
 
-.nav-link:hover {
+.nav-link a:hover,
+.nav-link a:active {
   color: #fff;
   transform: scale(1.05);
   text-shadow: 0 0 3px white;
@@ -80,4 +82,101 @@ body {
 #search-submit:hover {
   background-color: #1c7ed6;
   transform: translateY(-1px);
+}
+
+.container-index {
+  width: 50%;
+  margin: auto;
+}
+.element-index {
+  height: 50px;
+  margin-bottom: 20px;
+  border: 0.5px solid #aaa;
+  border-radius: 5px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px 0 30px;
+}
+
+.container-document {
+  width: 80%;
+  margin: auto;
+}
+
+.document-table {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.document-table td, .document-table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.document-table tr:nth-child(even){background-color: #f2f2f2;}
+
+.document-table tr:hover {background-color: #ddd;}
+
+.document-table th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #4DABF7;
+  color: white;
+}
+
+.btn {
+  align-items: center;
+  background-color: #4dabf7;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.85);
+  cursor: pointer;
+  display: inline-flex;
+  font-family: system-ui, -apple-system, system-ui, 'Helvetica Neue', Helvetica,
+    Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  width: auto;
+}
+
+.btn:hover,
+.btn:focus {
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  background-color: #f0f0f1;
+  border-color: rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  color: rgba(0, 0, 0, 0.65);
+  transform: translateY(0);
+}
+
+.inactive{
+  display: none;
 }
