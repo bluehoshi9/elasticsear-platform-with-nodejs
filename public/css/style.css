@@ -31,7 +31,7 @@ body {
 }
 
 .nav-link a:visited,
-.nav-link a{
+.nav-link a {
   color: #e7f5ff;
   font-size: 3.6rem;
   text-decoration: none;
@@ -102,7 +102,7 @@ body {
 }
 
 .container-document {
-  width: 80%;
+  width: 95%;
   margin: auto;
 }
 
@@ -110,23 +110,35 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
+  display: normal;
 }
 
-.document-table td, .document-table th {
+.document-table td,
+.document-table th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-.document-table tr:nth-child(even){background-color: #f2f2f2;}
+.document-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
 
-.document-table tr:hover {background-color: #ddd;}
+.document-table tr:hover {
+  background-color: #ddd;
+}
 
 .document-table th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4DABF7;
+  background-color: #4dabf7;
   color: white;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.document-table tr {
+  font-size: 1.4rem;
 }
 
 .btn {
@@ -177,6 +189,19 @@ body {
   transform: translateY(0);
 }
 
-.inactive{
+.inactive {
   display: none;
+}
+
+.document-input-container {
+  margin: 2% auto 2% auto;
+  width: 50%;
+}
+
+.document-input-element {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.document-input-element input {
+  border-radius: 2px;
 }

@@ -11,9 +11,9 @@ html
     include _header
 
     //Create Document
-    section
+    .document-input-container
         form(method='GET' action="/document") 
-          .div 
+          .document-input-element 
             input(type="text" name='index' placeholder="Type index" value='olympic_events')
             input(type="text" name='docid' placeholder="Type document id" value='9999')
             input(type="text" name='noc' placeholder="Type noc" value='')
