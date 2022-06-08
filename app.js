@@ -1,10 +1,12 @@
 const express = require('express');
 const path = require('path');
+const multer = require('multer');
+const client = require('./connection');
+const fs = require('fs');
 const indexRouter = require('./routes/indexRoutes');
 const documentRouter = require('./routes/documentRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const searchRouter = require('./routes/searchRoutes');
-const client = require('./connection');
 
 const app = express();
 app.use(express.json());
@@ -19,64 +21,50 @@ app.use('/api/v1/index', indexRouter);
 app.use('/api/v1/document', documentRouter);
 app.use('/api/v1/search', searchRouter);
 
-app.get('/test/:id?', async function (req, res) {
-  //delete
-  if (req.params.id) {
-    await client.delete({
-      index: 'olympic_events',
-      id: req.params.id,
-    });
-    return res.redirect(req.get('referer'));
-  }
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + file.originalname);
+  },
+});
 
-  //Create doc
-  if (req.query.index) {
-    let indexInput = req.query.index;
-    let docidInput = req.query.docid;
-    let nocInput = req.query.noc;
-    let sexInput = req.query.sex;
-    let cityInput = req.query.city;
-    let weightInput = req.query.weight;
-    let nameInput = req.query.name;
-    let sportInput = req.query.sport;
-    let gamesInput = req.query.games;
-    let eventInput = req.query.event;
-    let heightInput = req.query.height;
-    let teamInput = req.query.team;
-    let idInput = req.query.id;
-    let medalInput = req.query.medal;
-    let ageInput = req.query.age;
+const upload = multer({ storage: storage });
 
-    let createString = `{"index":"${indexInput}","id":"${docidInput}","body":{"noc":"${nocInput}","sex":"${sexInput}","city":"${cityInput}","weight":"${weightInput}","name":"${nameInput}","sport":"${sportInput}","games":"${gamesInput}","event":"${eventInput}","height":"${heightInput}","team":"${teamInput}","id":"${idInput}","medal":"${medalInput}","age":"${ageInput}"}}`;
-
-    console.log(createString);
-
-    await client.index(JSON.parse(createString));
-    return res.redirect(req.get('referer'));
-  }
-
-  //query
-  let query = {};
-
-  if (Object.keys(req.query).length === 0) {
-    query = { match_all: {} };
-  } else {
-    query = { match: req.query };
-  }
-
-  const documents = await client.search({
-    index: req.params.index,
-    body: {
-      size: 100,
-      query: query,
-    },
-  });
-
-  let documentHits = documents.hits.hits;
-
-  res.status(200).render('test', {
-    title: 'Test',
-    documentHits,
+app.get('/upload', function (req, res) {
+  res.status(200).render('upload', {
+    title: 'Upload',
   });
 });
+
+app.post('/upload/:index?', upload.single('myFile'), (req, res, next) => {
+  let createString = req.body.new_index;
+  createString = createString.toLowerCase().split(' ').join('_');
+
+  const data = JSON.parse(
+    fs.readFileSync(__dirname + `/uploads/${req.file.filename}`)
+  );
+
+  for (let i = 0; i < data.length; i++) {
+    client.create(
+      {
+        index: createString,
+        id: i,
+        body: data[i],
+      },
+      function (error, response) {
+        if (error) {
+          console.error(error);
+          return;
+        } else {
+          console.log(response);
+        }
+      }
+    );
+  }
+
+  res.redirect('/index');
+});
+
 module.exports = app;

@@ -6,6 +6,6 @@ router.get('/index/:index?', viewController.getIndex);
 
 router.get('/document/:index?/:id?', viewController.getDocument);
 
-router.get('/search', viewController.doSearch);
+router.get('/search/:index?/', viewController.doSearch);
 
 module.exports = router;

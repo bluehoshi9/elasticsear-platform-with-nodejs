@@ -1,0 +1,16 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet' href='/css/style.css')
+    title Platform | #{title}
+  body
+    //NAV
+    include _header
+
+    form.upload-form(action="/upload" enctype="multipart/form-data" method="POST")
+      .upload-container
+        input.upload-index(type="text" name='new_index' placeholder="Type new index name")
+        input.upload-file(type="file" name="myFile")
+        input.upload-submit(type="submit" value="Upload a file")

@@ -32,6 +32,14 @@ html
             input(type="submit" value="Create | Update")
 
     .container-document
+
+      .dropdown
+        button.dropbtn Choose Index
+          .dropdown-content
+            each index in indicesString
+              - index = index.split(' ').join('_');
+                a(href=`/document/${index}`)= index
+
       table.document-table
         tr
           th Index name

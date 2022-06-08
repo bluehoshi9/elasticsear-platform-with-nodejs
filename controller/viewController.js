@@ -39,6 +39,18 @@ exports.getIndex = async (req, res) => {
 };
 
 exports.getDocument = async (req, res) => {
+  //index
+  const indices = await client.indices.get({
+    index: '_all',
+  });
+
+  let indicesString = [];
+
+  for (const index in indices) {
+    indicesString.push(index);
+  }
+  indicesString = indicesString.map((el) => el.split('_').join(' '));
+
   //Delete document
   if (req.params.id) {
     await client.delete({
@@ -88,16 +100,32 @@ exports.getDocument = async (req, res) => {
       query: query,
     },
   });
-
   let documentHits = documents.hits.hits;
 
   res.status(200).render('document', {
     title: 'Document',
+    indicesString,
     documentHits,
   });
 };
 
 exports.doSearch = async (req, res) => {
+  //index
+  const indices = await client.indices.get({
+    index: '_all',
+  });
+
+  let indicesString = [];
+
+  for (const index in indices) {
+    indicesString.push(index);
+  }
+  indicesString = indicesString.map((el) => el.split('_').join(' '));
+
+  //search
+  if (!req.query.limit) {
+    req.query.limit = 100;
+  }
   let queryString = '';
 
   if (!req.query.query_string) {
@@ -109,7 +137,7 @@ exports.doSearch = async (req, res) => {
   const documents = await client.search({
     index: req.params.index,
     body: {
-      size: 10000,
+      size: req.query.limit,
       query: {
         multi_match: {
           query: queryString,
@@ -119,11 +147,20 @@ exports.doSearch = async (req, res) => {
     },
   });
 
+  let searchAction = '';
+  if (!req.params.index) {
+    searchAction = '/search/';
+  } else {
+    searchAction = `/search/${req.params.index}`;
+  }
+
   let documentHits = documents.hits.hits;
   if (queryString == '') documentHits = []; //Bug
 
   res.status(200).render('search', {
     title: 'Search',
+    searchAction,
+    indicesString,
     documentHits,
   });
 };

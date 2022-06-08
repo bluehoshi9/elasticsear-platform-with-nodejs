@@ -25,7 +25,7 @@ body {
 
 .nav-list {
   display: flex;
-  width: 30%;
+  width: 40%;
   justify-content: space-around;
   list-style: none;
 }
@@ -55,6 +55,8 @@ body {
 
 .search-form {
   width: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 .search-form div {
@@ -82,6 +84,10 @@ body {
 #search-submit:hover {
   background-color: #1c7ed6;
   transform: translateY(-1px);
+}
+
+#limit-box {
+  width: 10%;
 }
 
 .container-index {
@@ -204,4 +210,70 @@ body {
 }
 .document-input-element input {
   border-radius: 2px;
+}
+
+.upload-container {
+  width: 50%;
+  margin: 30px auto auto auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.upload-container .upload-index,
+.upload-container .upload-submit {
+  height: 4.8rem;
+  font-size: 2.4rem;
+  border-radius: 20px;
+}
+
+.upload-container .upload-index {
+  text-indent: 2rem;
+}
+
+.upload-container .upload-submit {
+  background-color: #1971c2;
+  color: white;
+}
+
+.dropbtn {
+  background-color: #4dabf7;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #1971c2;
 }
