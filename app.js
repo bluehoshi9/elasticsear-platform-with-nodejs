@@ -38,33 +38,39 @@ app.get('/upload', function (req, res) {
 });
 
 app.post('/upload/:index?', upload.single('myFile'), (req, res, next) => {
-  let createString = req.body.new_index;
-  createString = createString.toLowerCase().split(' ').join('_');
+  try {
+    let createString = req.body.new_index;
+    createString = createString.toLowerCase().split(' ').join('_');
 
-  const data = JSON.parse(
-    fs.readFileSync(__dirname + `/uploads/${req.file.filename}`)
-  );
-
-  for (let i = 0; i < data.length; i++) {
-    console.log();
-    client.create(
-      {
-        index: createString,
-        id: i,
-        body: data[i],
-      },
-      function (error, response) {
-        if (error) {
-          console.error(error);
-          return;
-        } else {
-          console.log(response);
-        }
-      }
+    const data = JSON.parse(
+      fs.readFileSync(__dirname + `/uploads/${req.file.filename}`)
     );
-  }
 
-  res.redirect('/upload');
+    for (let i = 0; i < data.length; i++) {
+      client.create(
+        {
+          index: createString,
+          id: i,
+          body: data[i],
+        },
+        function (error, response) {
+          if (error) {
+            console.error(error);
+            return;
+          } else {
+            console.log(response);
+          }
+        }
+      );
+    }
+
+    res.redirect('/upload');
+  } catch (err) {
+    res.status(200).render('error', {
+      title: 'Error',
+      err,
+    });
+  }
 });
 
 module.exports = app;
