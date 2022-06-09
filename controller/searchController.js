@@ -2,7 +2,7 @@ const client = require('./../connection');
 
 exports.doSearch = async (req, res) => {
   try {
-    //index
+    //Index: Use for indices dropdown, return an array of indices
     const indices = await client.indices.get({
       index: '_all',
     });
@@ -14,7 +14,7 @@ exports.doSearch = async (req, res) => {
     }
     indicesString = indicesString.map((el) => el.split('_').join(' '));
 
-    //search
+    //Search: Perform search, return an array of objects hit
     if (!req.query.limit) {
       req.query.limit = 100;
     }
@@ -57,8 +57,9 @@ exports.doSearch = async (req, res) => {
     let arrayOfKeys = [];
     let arrayOfValues = [];
     let arrayOfNumbers = [];
+
+    //Extract keys and values
     if (documentHits.length != 0) {
-      // ---------------Extract keys and values
       arrayOfKeys = Object.keys(documentHits[0]._source);
 
       for (const document of documentHits) {

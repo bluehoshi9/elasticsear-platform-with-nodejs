@@ -11,16 +11,16 @@ html
     //NAV
     include _header
 
-    .dropdown.dropdown-search
-      button.dropbtn Choose Index
-        .dropdown-content
-          each index in indicesString
-            - indexUnderScore = index.split(' ').join('_');
-              a(href=`/search/${indexUnderScore}`)= index
     
 
     section.search 
       .search-box 
+        .dropdown.dropdown-search
+          button.dropbtn Choose Index
+            .dropdown-content
+              each index in indicesString
+                - indexUnderScore = index.split(' ').join('_');
+                  a(href=`/search/${indexUnderScore}`)= index
         form.search-form(method='GET' action=`${searchAction}`) 
           .div
             input#search-input(type="text" name='query_string' placeholder="Type something" required)
@@ -31,13 +31,14 @@ html
     //- - if(documentHits.length === 0) hide='inactive';
     //- .container-document(class=`${hide}`)
     .field-result
-      .dropdown.dropdown-field
+      - let hide = '';
+      - if (typeof index == 'undefined') hide='inactive';
+      .dropdown.dropdown-field(class=`${hide}`)
         button.dropbtn Choose Field
           .dropdown-content
             each key in arrayOfKeys
               a(href=`/search/${index}/${key}?limit=${limit}&query_string=${queryString}`)= key
       p.result= `Results: ${documentHits.length}`
-
 
     table.document-table
       tr
