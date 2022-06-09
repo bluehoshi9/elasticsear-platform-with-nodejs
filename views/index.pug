@@ -19,7 +19,7 @@ html
     .container-index
       each index in indicesString
         .element-index
-          h1= index
-          - index = index.split(' ').join('_');
-          form(method='GET' action=`/index/${index}?_method=DELETE`)
+          - indexUnderScore = index.split(' ').join('_');
+          a(href=`/document/${indexUnderScore}`)= index
+          form(method='GET' action=`/index/${indexUnderScore}?_method=DELETE`)
             button.btn.btn-index(type='submit') Delete

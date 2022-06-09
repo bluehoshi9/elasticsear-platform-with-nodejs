@@ -64,21 +64,21 @@ exports.getDocument = async (req, res) => {
   if (req.query.index) {
     let indexInput = req.query.index;
     let docidInput = req.query.docid;
-    let nocInput = req.query.noc;
-    let sexInput = req.query.sex;
-    let cityInput = req.query.city;
-    let weightInput = req.query.weight;
-    let nameInput = req.query.name;
-    let sportInput = req.query.sport;
-    let gamesInput = req.query.games;
-    let eventInput = req.query.event;
-    let heightInput = req.query.height;
-    let teamInput = req.query.team;
-    let idInput = req.query.id;
-    let medalInput = req.query.medal;
-    let ageInput = req.query.age;
+    let fieldOneInput = req.query.field_1;
+    let fieldTwoInput = req.query.field_2;
+    let fieldThreeInput = req.query.field_3;
+    let fieldFourInput = req.query.field_4;
+    let fieldFiveInput = req.query.field_5;
+    let fieldSixInput = req.query.field_6;
+    let fieldSevenInput = req.query.field_7;
+    let fieldEightInput = req.query.field_8;
+    let fieldNineInput = req.query.field_9;
+    let fieldTenInput = req.query.field_10;
+    let fieldElevenInput = req.query.field_11;
+    let fieldTwelveInput = req.query.field_12;
+    let fieldThirteenInput = req.query.field_13;
 
-    let createString = `{"index":"${indexInput}","id":"${docidInput}","body":{"noc":"${nocInput}","sex":"${sexInput}","city":"${cityInput}","weight":"${weightInput}","name":"${nameInput}","sport":"${sportInput}","games":"${gamesInput}","event":"${eventInput}","height":"${heightInput}","team":"${teamInput}","id":"${idInput}","medal":"${medalInput}","age":"${ageInput}"}}`;
+    let createString = `{"index":"${indexInput}","id":"${docidInput}","body":{"Field One":"${fieldOneInput}","Field Two":"${fieldTwoInput}","Field Three":"${fieldThreeInput}","Field Four":"${fieldFourInput}","Field Five":"${fieldFiveInput}","Field Six":"${fieldSixInput}","Field Seven":"${fieldSevenInput}","Field Eight":"${fieldEightInput}","Field Nine":"${fieldNineInput}","Field Ten":"${fieldTenInput}","Field Eleven":"${fieldElevenInput}","Field Twelve":"${fieldTwelveInput}","Field Thirteen":"${fieldThirteenInput}"}}`;
 
     await client.index(JSON.parse(createString));
     return res.redirect(req.get('referer'));
@@ -101,11 +101,47 @@ exports.getDocument = async (req, res) => {
     },
   });
   let documentHits = documents.hits.hits;
+  //Extract keys and values
+  const arrayOfKeys = Object.keys(documentHits[0]._source);
+
+  const arrayOfValues = [];
+
+  for (const document of documentHits) {
+    delete document._score;
+    arrayOfValues.push(
+      Object.assign(
+        {},
+        Object.values(
+          Object.assign(
+            {},
+            ...(function _flatten(o) {
+              return [].concat(
+                ...Object.keys(o).map((k) =>
+                  typeof o[k] === 'object' ? _flatten(o[k]) : { [k]: o[k] }
+                )
+              );
+            })(document)
+          )
+        )
+      )
+    );
+  }
+
+  //Number of columns
+  const columnNumber = Object.keys(arrayOfValues[0]).length;
+
+  const arrayOfNumbers = [];
+  for (let i = 0; i < columnNumber; i++) {
+    arrayOfNumbers.push(i);
+  }
 
   res.status(200).render('document', {
     title: 'Document',
     indicesString,
+    arrayOfKeys,
+    arrayOfValues,
     documentHits,
+    arrayOfNumbers,
   });
 };
 
@@ -157,10 +193,49 @@ exports.doSearch = async (req, res) => {
   let documentHits = documents.hits.hits;
   if (queryString == '') documentHits = []; //Bug
 
+  let arrayOfKeys = [];
+  let arrayOfValues = [];
+  let arrayOfNumbers = [];
+  if (documentHits.length != 0) {
+    // ---------------Extract keys and values
+    arrayOfKeys = Object.keys(documentHits[0]._source);
+
+    for (const document of documentHits) {
+      delete document._score;
+      arrayOfValues.push(
+        Object.assign(
+          {},
+          Object.values(
+            Object.assign(
+              {},
+              ...(function _flatten(o) {
+                return [].concat(
+                  ...Object.keys(o).map((k) =>
+                    typeof o[k] === 'object' ? _flatten(o[k]) : { [k]: o[k] }
+                  )
+                );
+              })(document)
+            )
+          )
+        )
+      );
+    }
+
+    //Number of columns
+    const columnNumber = Object.keys(arrayOfValues[0]).length;
+
+    for (let i = 0; i < columnNumber; i++) {
+      arrayOfNumbers.push(i);
+    }
+  }
+
   res.status(200).render('search', {
     title: 'Search',
     searchAction,
     indicesString,
     documentHits,
+    arrayOfKeys,
+    arrayOfValues,
+    arrayOfNumbers,
   });
 };

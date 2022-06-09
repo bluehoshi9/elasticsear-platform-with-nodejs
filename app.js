@@ -46,7 +46,10 @@ app.post('/upload/:index?', upload.single('myFile'), (req, res, next) => {
     fs.readFileSync(__dirname + `/uploads/${req.file.filename}`)
   );
 
+  console.log(data);
+  console.log(createString);
   for (let i = 0; i < data.length; i++) {
+    console.log();
     client.create(
       {
         index: createString,
@@ -64,7 +67,7 @@ app.post('/upload/:index?', upload.single('myFile'), (req, res, next) => {
     );
   }
 
-  res.redirect('/index');
+  res.redirect('/upload');
 });
 
 module.exports = app;

@@ -14,21 +14,21 @@ html
     .document-input-container
         form(method='GET' action="/document") 
           .document-input-element 
-            input(type="text" name='index' placeholder="Type index" value='olympic_events')
-            input(type="text" name='docid' placeholder="Type document id" value='9999')
-            input(type="text" name='noc' placeholder="Type noc" value='')
-            input(type="text" name='sex' placeholder="Type sex" value='M')
-            input(type="text" name='city' placeholder="Type city" value='HCM')
-            input(type="text" name='weight' placeholder="Type weight" value='NA')
-            input(type="text" name='name' placeholder="Type name" value='Pham Van A')
-            input(type="text" name='sport' placeholder="Type sport" value='Football')
-            input(type="text" name='games' placeholder="Type games" value='2022 Summer')
-            input(type="text" name='event' placeholder="Type event" value='Men\'s Football')
-            input(type="text" name='height' placeholder="Type height" value='NA')
-            input(type="text" name='team' placeholder="Type team" value='Vietnam')
-            input(type="text" name='id' placeholder="Type id" value='0')
-            input(type="text" name='medal' placeholder="Type medal" value='NA')
-            input(type="text" name='age' placeholder="Type age" value='30')
+            input(type="text" name='index' placeholder="Type index")
+            input(type="text" name='docid' placeholder="Type document id")
+            input(type="text" name='field_1' placeholder="Type Field One")
+            input(type="text" name='field_2' placeholder="Type Field Two")
+            input(type="text" name='field_3' placeholder="Type Field Three")
+            input(type="text" name='field_4' placeholder="Type Field Four")
+            input(type="text" name='field_5' placeholder="Type Field Five")
+            input(type="text" name='field_6' placeholder="Type Field Six")
+            input(type="text" name='field_7' placeholder="Type Field Seven")
+            input(type="text" name='field_8' placeholder="Type Field Eight")
+            input(type="text" name='field_9' placeholder="Type Field Nine")
+            input(type="text" name='field_10' placeholder="Type Field Ten")
+            input(type="text" name='field_11' placeholder="Type Field Eleven")
+            input(type="text" name='field_12' placeholder="Type Field Twelve")
+            input(type="text" name='field_13' placeholder="Type Field Thirteen")
             input(type="submit" value="Create | Update")
 
     .container-document
@@ -37,44 +37,22 @@ html
         button.dropbtn Choose Index
           .dropdown-content
             each index in indicesString
-              - index = index.split(' ').join('_');
-                a(href=`/document/${index}`)= index
-
-      table.document-table
+              - indexUnderScore = index.split(' ').join('_');
+                a(href=`/document/${indexUnderScore}`)= index
+      //- - let hide = ''
+      //- - if  (documentHits.length === 0) hide='inactive';
+      table.document-table(class=`${hide}`)
         tr
           th Index name
           th Document ID
-          th NOC
-          th Sex
-          th City
-          th Weight
-          th Name
-          th Sport
-          th Games
-          th Event
-          th Height
-          th Team
-          th Id
-          th Medal
-          th Age
-          th Action
-        each documents in documentHits
-          tr
-            td= documents._index 
-            td= documents._id
-            td= documents._source.noc
-            td= documents._source.sex
-            td= documents._source.city
-            td= documents._source.weight
-            td= documents._source.name
-            td= documents._source.sport
-            td= documents._source.games
-            td= documents._source.event
-            td= documents._source.height
-            td= documents._source.team
-            td= documents._source.id
-            td= documents._source.medal
-            td= documents._source.age
-            td
-              form(method='GET' action=`/document/${documents._index}/${documents._id}?_method=DELETE`)
-                button(type='submit') Delete
+          each key in arrayOfKeys 
+            th= key
+          th Action  
+
+          each value in arrayOfValues 
+            tr
+              each val in arrayOfNumbers
+                td= value[val]
+              td
+                form(method='GET' action=`/document/${value[0]}/${value[1]}?_method=DELETE`)
+                  button(type='submit') Delete

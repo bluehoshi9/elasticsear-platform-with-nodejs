@@ -10,20 +10,21 @@ html
     //NAV
     include _header
 
-    .dropdown
+    .dropdown.dropdown-search
       button.dropbtn Choose Index
         .dropdown-content
           each index in indicesString
-            - index = index.split(' ').join('_');
-              a(href=`/search/${index}`)= index
+            - indexUnderScore = index.split(' ').join('_');
+              a(href=`/search/${indexUnderScore}`)= index
+
     section.search 
       .search-box 
         form.search-form(method='GET' action=`${searchAction}`) 
+          input#limit-box(type="number" name='limit' placeholder="100")
           .div 
 
             input#search-input(type="text" name='query_string' placeholder="Type something")
             input#search-submit(type="submit" value="Search")
-          input#limit-box(type="number" name='limit' placeholder="100")
 
     - let hide = ''
     - if(documentHits.length === 0) hide='inactive';
@@ -34,37 +35,14 @@ html
           tr
             th Index name
             th Document ID
-            th NOC
-            th Sex
-            th City
-            th Weight
-            th Name
-            th Sport
-            th Games
-            th Event
-            th Height
-            th Team
-            th Id
-            th Medal
-            th Age
-            th Action
-          each documents in documentHits
-            tr
-              td= documents._index 
-              td= documents._id
-              td= documents._source.noc
-              td= documents._source.sex
-              td= documents._source.city
-              td= documents._source.weight
-              td= documents._source.name
-              td= documents._source.sport
-              td= documents._source.games
-              td= documents._source.event
-              td= documents._source.height
-              td= documents._source.team
-              td= documents._source.id
-              td= documents._source.medal
-              td= documents._source.age
-              td
-                form(method='GET' action=`/document/${documents._index}/${documents._id}?_method=DELETE`)
-                  button(type='submit') Delete
+            each key in arrayOfKeys 
+              th= key
+            th Action  
+
+            each value in arrayOfValues 
+              tr
+                each val in arrayOfNumbers
+                  td= value[val]
+                td
+                  form(method='GET' action=`/document/${value[0]}/${value[1]}?_method=DELETE`)
+                    button(type='submit') Delete
