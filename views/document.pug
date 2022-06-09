@@ -3,6 +3,7 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel="icon" type="image/png" href='/images/favicon.png')
     link(rel='stylesheet' href='/css/style.css')
     title Platform | #{title}
 
@@ -14,8 +15,8 @@ html
     .document-input-container
         form(method='GET' action="/document") 
           .document-input-element 
-            input(type="text" name='index' placeholder="Type index")
-            input(type="text" name='docid' placeholder="Type document id")
+            input(type="text" name='index' placeholder="Type index" required)
+            input(type="text" name='docid' placeholder="Type document id" required)
             input(type="text" name='field_1' placeholder="Type Field One")
             input(type="text" name='field_2' placeholder="Type Field Two")
             input(type="text" name='field_3' placeholder="Type Field Three")
@@ -32,7 +33,6 @@ html
             input(type="submit" value="Create | Update")
 
     .container-document
-
       .dropdown
         button.dropbtn Choose Index
           .dropdown-content

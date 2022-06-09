@@ -3,6 +3,7 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel="icon" type="image/png" href='/images/favicon.png')
     link(rel='stylesheet' href='/css/style.css')
     title Platform | #{title}
   body
@@ -11,9 +12,9 @@ html
 
     section.search 
       .search-box 
-        form.search-form(method='GET' action="/index") 
+        form.search-form(method='GET' action="/index"  title ="Index name must between 1 - 100 character and not contain: [ , \", *, \, <, |, ,, ., >, /, ?]") 
           .div 
-            input#search-input(type="text" name='new_index' placeholder="Type new index name")
+            input#search-input(type="text" name='new_index' placeholder="Type new index name" required)
             input#search-submit(type="submit" value="Create")
 
     .container-index

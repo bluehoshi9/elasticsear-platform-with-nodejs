@@ -3,6 +3,7 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel="icon" type="image/png" href='/images/favicon.png')
     link(rel='stylesheet' href='/css/style.css')
     title Platform | #{title}
 
@@ -22,7 +23,7 @@ html
       .search-box 
         form.search-form(method='GET' action=`${searchAction}`) 
           .div
-            input#search-input(type="text" name='query_string' placeholder="Type something")
+            input#search-input(type="text" name='query_string' placeholder="Type something" required)
             input#limit-box(type="number" name='limit' placeholder="100" min="0" max="10000")
             input#search-submit(type="submit" value="Search")
 

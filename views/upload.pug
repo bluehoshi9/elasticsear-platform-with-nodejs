@@ -3,15 +3,15 @@ html
   head
     meta(charset='UTF-8')
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel="icon" type="image/png" href='/images/favicon.png')
     link(rel='stylesheet' href='/css/style.css')
     title Platform | #{title}
   body
     //NAV
     include _header
 
-    form.upload-form(action="/upload" enctype="multipart/form-data" method="POST")
+    form.upload-form(action="/upload" enctype="multipart/form-data" method="POST" title="JSON file only!")
       .upload-container
-        input.upload-index(type="text" name='new_index' placeholder="Type new index name")
-        input.upload-file(type="file" name="myFile")
-        p(style="color:red;font-size:1.5rem") Note: JSON file only!
+        input.upload-index(type="text" name='new_index' title ="Index name must between 1 - 100 character and not contain: [ , \", *, \, <, |, ,, ., >, /, ?]" placeholder="Type new index name" required)
+        input.upload-file(type="file" name="myFile" accept="application/JSON" required)
         input.upload-submit(type="submit" value="Upload a file")
