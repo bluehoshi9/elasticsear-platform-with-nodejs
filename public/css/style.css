@@ -87,7 +87,10 @@ body {
 }
 
 #limit-box {
-  width: 10%;
+  width: 15%;
+  height: 4.8rem;
+  font-size: 2.4rem;
+  border: 2px solid black;
 }
 
 .container-index {
@@ -313,14 +316,14 @@ body {
   color: #444;
 }
 
-.field-result{
+.field-result {
   display: flex;
   flex-direction: row;
-  align-items:  center;
+  align-items: center;
   gap: 20px;
 }
 
-.result{
+.result {
   font-size: 3rem;
   font-weight: 600;
 }

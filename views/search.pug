@@ -21,9 +21,9 @@ html
     section.search 
       .search-box 
         form.search-form(method='GET' action=`${searchAction}`) 
-          input#limit-box(type="number" name='limit' placeholder="100" min="0" max="10000")
           .div
             input#search-input(type="text" name='query_string' placeholder="Type something")
+            input#limit-box(type="number" name='limit' placeholder="100" min="0" max="10000")
             input#search-submit(type="submit" value="Search")
 
     //- - let hide = ''
