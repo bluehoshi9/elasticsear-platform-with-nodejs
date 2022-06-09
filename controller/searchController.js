@@ -26,6 +26,11 @@ exports.doSearch = async (req, res) => {
       queryString = req.query.query_string;
     }
 
+    let fieldString = ['*'];
+    if (req.params.field) {
+      fieldString = req.params.field;
+    }
+
     const documents = await client.search({
       index: req.params.index,
       body: {
@@ -33,7 +38,7 @@ exports.doSearch = async (req, res) => {
         query: {
           multi_match: {
             query: queryString,
-            fields: ['*'],
+            fields: fieldString,
           },
         },
       },
@@ -93,6 +98,9 @@ exports.doSearch = async (req, res) => {
       arrayOfKeys,
       arrayOfValues,
       arrayOfNumbers,
+      index: req.params.index,
+      limit: req.query.limit,
+      queryString,
     });
   } catch (err) {
     res.status(200).render('error', {

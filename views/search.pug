@@ -16,33 +16,40 @@ html
           each index in indicesString
             - indexUnderScore = index.split(' ').join('_');
               a(href=`/search/${indexUnderScore}`)= index
+    
 
     section.search 
       .search-box 
         form.search-form(method='GET' action=`${searchAction}`) 
-          input#limit-box(type="number" name='limit' placeholder="100" min="0")
-          .div 
-
+          input#limit-box(type="number" name='limit' placeholder="100" min="0" max="10000")
+          .div
             input#search-input(type="text" name='query_string' placeholder="Type something")
             input#search-submit(type="submit" value="Search")
 
-    - let hide = ''
-    - if(documentHits.length === 0) hide='inactive';
-    .container-document(class=`${hide}`)
-      p= `Results: ${documentHits.length}`
+    //- - let hide = ''
+    //- - if(documentHits.length === 0) hide='inactive';
+    //- .container-document(class=`${hide}`)
+    .field-result
+      .dropdown.dropdown-field
+        button.dropbtn Choose Field
+          .dropdown-content
+            each key in arrayOfKeys
+              a(href=`/search/${index}/${key}?limit=${limit}&query_string=${queryString}`)= key
+      p.result= `Results: ${documentHits.length}`
 
-        table.document-table
+
+    table.document-table
+      tr
+        th Index name
+        th Document ID
+        each key in arrayOfKeys 
+          th= key
+        th Action  
+
+        each value in arrayOfValues 
           tr
-            th Index name
-            th Document ID
-            each key in arrayOfKeys 
-              th= key
-            th Action  
-
-            each value in arrayOfValues 
-              tr
-                each val in arrayOfNumbers
-                  td= value[val]
-                td
-                  form(method='GET' action=`/document/${value[0]}/${value[1]}?_method=DELETE`)
-                    button(type='submit') Delete
+            each val in arrayOfNumbers
+              td= value[val]
+            td(style="width:10px")
+              form(method='GET' action=`/document/${value[0]}/${value[1]}?_method=DELETE`)
+                button(type='submit') Delete

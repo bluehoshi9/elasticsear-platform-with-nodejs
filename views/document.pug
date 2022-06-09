@@ -53,6 +53,6 @@ html
             tr
               each val in arrayOfNumbers
                 td= value[val]
-              td
+              td(style="width:10px")
                 form(method='GET' action=`/document/${value[0]}/${value[1]}?_method=DELETE`)
                   button(type='submit') Delete

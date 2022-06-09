@@ -108,8 +108,7 @@ body {
 }
 
 .container-document {
-  width: 95%;
-  margin: auto;
+  width: 100%;
 }
 
 .document-table {
@@ -312,4 +311,16 @@ body {
   font-size: 3rem;
   text-align: center;
   color: #444;
+}
+
+.field-result{
+  display: flex;
+  flex-direction: row;
+  align-items:  center;
+  gap: 20px;
+}
+
+.result{
+  font-size: 3rem;
+  font-weight: 600;
 }

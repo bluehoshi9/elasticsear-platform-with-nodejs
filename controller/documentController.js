@@ -63,6 +63,7 @@ exports.getDocument = async (req, res) => {
         query: query,
       },
     });
+
     let documentHits = documents.hits.hits;
     //Extract keys and values
     const arrayOfKeys = Object.keys(documentHits[0]._source);
