@@ -3,9 +3,9 @@ const path = require('path');
 const multer = require('multer');
 const client = require('./connection');
 const fs = require('fs');
+
 const indexRouter = require('./routes/indexRoutes');
 const documentRouter = require('./routes/documentRoutes');
-const viewRouter = require('./routes/viewRoutes');
 const searchRouter = require('./routes/searchRoutes');
 
 const app = express();
@@ -16,10 +16,9 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', viewRouter);
-app.use('/api/v1/index', indexRouter);
-app.use('/api/v1/document', documentRouter);
-app.use('/api/v1/search', searchRouter);
+app.use('/index', indexRouter);
+app.use('/document', documentRouter);
+app.use('/search', searchRouter);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -46,8 +45,6 @@ app.post('/upload/:index?', upload.single('myFile'), (req, res, next) => {
     fs.readFileSync(__dirname + `/uploads/${req.file.filename}`)
   );
 
-  console.log(data);
-  console.log(createString);
   for (let i = 0; i < data.length; i++) {
     console.log();
     client.create(

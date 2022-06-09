@@ -1,0 +1,17 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet' href='/css/style.css')
+    title Platform | #{title}
+
+  body
+    //NAV
+    include _header
+
+    //Create Document
+    .err-container
+      p.err-code= 400
+      p.err-name= err.name
+      p.err-message= err.message

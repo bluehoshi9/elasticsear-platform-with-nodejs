@@ -2,85 +2,58 @@ const client = require('./../connection');
 
 exports.getDocument = async (req, res) => {
   try {
-    const doc = await client.get({
-      index: req.params.index,
-      id: req.params.id,
+    //index
+    const indices = await client.indices.get({
+      index: '_all',
     });
 
-    res.status(200).json({
-      status: 'success',
-      data: doc,
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+    let indicesString = [];
 
-exports.createDocument = async (req, res) => {
-  try {
-    const doc = await client.index(req.body);
+    for (const index in indices) {
+      indicesString.push(index);
+    }
+    indicesString = indicesString.map((el) => el.split('_').join(' '));
 
-    res.status(200).json({
-      status: 'success',
-      data: doc,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+    //Delete document
+    if (req.params.id) {
+      await client.delete({
+        index: req.params.index,
+        id: req.params.id,
+      });
+      return res.redirect(req.get('referer'));
+    }
 
-exports.updateDocument = async (req, res) => {
-  try {
-    const docUpdate = await client.update({
-      index: req.params.index,
-      id: req.params.id,
-      body: { doc: req.body },
-    });
+    //Create document
+    if (req.query.index) {
+      let indexInput = req.query.index;
+      let docidInput = req.query.docid;
+      let fieldOneInput = req.query.field_1;
+      let fieldTwoInput = req.query.field_2;
+      let fieldThreeInput = req.query.field_3;
+      let fieldFourInput = req.query.field_4;
+      let fieldFiveInput = req.query.field_5;
+      let fieldSixInput = req.query.field_6;
+      let fieldSevenInput = req.query.field_7;
+      let fieldEightInput = req.query.field_8;
+      let fieldNineInput = req.query.field_9;
+      let fieldTenInput = req.query.field_10;
+      let fieldElevenInput = req.query.field_11;
+      let fieldTwelveInput = req.query.field_12;
+      let fieldThirteenInput = req.query.field_13;
 
-    res.status(200).json({
-      status: 'success',
-      data: docUpdate,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
+      let createString = `{"index":"${indexInput}","id":"${docidInput}","body":{"Field One":"${fieldOneInput}","Field Two":"${fieldTwoInput}","Field Three":"${fieldThreeInput}","Field Four":"${fieldFourInput}","Field Five":"${fieldFiveInput}","Field Six":"${fieldSixInput}","Field Seven":"${fieldSevenInput}","Field Eight":"${fieldEightInput}","Field Nine":"${fieldNineInput}","Field Ten":"${fieldTenInput}","Field Eleven":"${fieldElevenInput}","Field Twelve":"${fieldTwelveInput}","Field Thirteen":"${fieldThirteenInput}"}}`;
 
-exports.deleteDocument = async (req, res) => {
-  try {
-    await client.delete({
-      index: req.params.index,
-      id: req.params.id,
-    });
+      await client.index(JSON.parse(createString));
+      return res.redirect(req.get('referer'));
+    }
 
-    res.status(200).json({
-      status: 'success',
-    });
-  } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
-    });
-  }
-};
-
-exports.getAllDocuments = async (req, res) => {
-  try {
+    //Query document
     let query = {};
 
     if (Object.keys(req.query).length === 0) {
       query = { match_all: {} };
     } else {
-      query = changeQueryString(req.query);
+      query = { match: req.query };
     }
 
     const documents = await client.search({
@@ -90,28 +63,53 @@ exports.getAllDocuments = async (req, res) => {
         query: query,
       },
     });
+    let documentHits = documents.hits.hits;
+    //Extract keys and values
+    const arrayOfKeys = Object.keys(documentHits[0]._source);
 
-    res.status(200).json({
-      results: documents.hits.hits.length,
-      status: 'success',
-      data: documents.hits.hits,
+    const arrayOfValues = [];
+
+    for (const document of documentHits) {
+      delete document._score;
+      arrayOfValues.push(
+        Object.assign(
+          {},
+          Object.values(
+            Object.assign(
+              {},
+              ...(function _flatten(o) {
+                return [].concat(
+                  ...Object.keys(o).map((k) =>
+                    typeof o[k] === 'object' ? _flatten(o[k]) : { [k]: o[k] }
+                  )
+                );
+              })(document)
+            )
+          )
+        )
+      );
+    }
+
+    //Number of columns
+    const columnNumber = Object.keys(arrayOfValues[0]).length;
+
+    const arrayOfNumbers = [];
+    for (let i = 0; i < columnNumber; i++) {
+      arrayOfNumbers.push(i);
+    }
+
+    res.status(200).render('document', {
+      title: 'Document',
+      indicesString,
+      arrayOfKeys,
+      arrayOfValues,
+      documentHits,
+      arrayOfNumbers,
     });
   } catch (err) {
-    res.status(404).json({
-      status: 'fail',
-      message: err,
+    res.status(200).render('error', {
+      title: 'Error',
+      err,
     });
   }
 };
-
-function changeQueryString(origin) {
-  const result = {
-    bool: {
-      must: [],
-    },
-  };
-  for (const key in origin) {
-    result.bool.must.push({ match: { [key]: origin[key] } });
-  }
-  return result;
-}

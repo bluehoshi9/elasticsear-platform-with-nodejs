@@ -288,3 +288,28 @@ body {
   font-size: 2.4rem;
   color: black;
 }
+
+.err-container {
+  width: 80%;
+  /* background-color: #1c7ed6; */
+  margin: 100px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.err-code {
+  font-size: 15rem;
+  font-weight: 900;
+  color: #aaa;
+}
+.err-name {
+  font-size: 5rem;
+  font-weight: 700;
+  color: rgb(255, 69, 69);
+}
+.err-message {
+  font-size: 3rem;
+  text-align: center;
+  color: #444;
+}
