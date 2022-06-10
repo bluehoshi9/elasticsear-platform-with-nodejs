@@ -18,6 +18,7 @@ html
         .dropdown.dropdown-search
           button.dropbtn Choose Index
             .dropdown-content
+              a(href=`/search/`) All
               each index in indicesString
                 - indexUnderScore = index.split(' ').join('_');
                   a(href=`/search/${indexUnderScore}`)= index
@@ -38,7 +39,21 @@ html
           .dropdown-content
             each key in arrayOfKeys
               a(href=`/search/${index}/${key}?limit=${limit}&query_string=${queryString}`)= key
-      p.result= `Results: ${documentHits.length}`
+
+      .dropdown.dropdown-field(class=`${hide}` title='Can only sort field with type is number')
+        button.dropbtn Ascending Order
+          .dropdown-content
+            each key in arrayOfKeys
+              a(href=`${fullUrl}&sort=asc-${key}` title='Can only sort field with type is number')= key
+      .dropdown.dropdown-field(class=`${hide}`)
+        button.dropbtn Descending Order
+          .dropdown-content
+            each key in arrayOfKeys
+              a(href=`${fullUrl}&sort=dsc-${key}` title='Can only sort field with type is number')= key
+
+      .result-container(class=`${hide}`)
+        .result
+          p= `${documentHits.length}`
 
     table.document-table
       tr
@@ -54,4 +69,4 @@ html
               td= value[val]
             td(style="width:10px")
               form(method='GET' action=`/document/${value[0]}/${value[1]}?_method=DELETE`)
-                button(type='submit') Delete
+                button.btn.btn-delete(type='submit') Delete

@@ -59,7 +59,7 @@ exports.getDocument = async (req, res) => {
     const documents = await client.search({
       index: req.params.index,
       body: {
-        size: 1,
+        size: 100,
         query: query,
       },
     });

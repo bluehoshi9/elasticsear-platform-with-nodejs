@@ -14,12 +14,28 @@ exports.doSearch = async (req, res) => {
     }
     indicesString = indicesString.map((el) => el.split('_').join(' '));
 
-    //Search: Perform search, return an array of objects hit
+    //-----Search: Perform search, return an array of objects hit
+    //---Format SORT string
+    let sortString = [];
+    let sortObj = {};
+    if (typeof req.query.sort != 'undefined') {
+      if (req.query.sort.slice(0, 3) == 'asc') {
+        sortObj = `{ "${req.query.sort
+          .split('-')
+          .pop()}": { "order": "asc" } }`;
+      }
+      if (req.query.sort.slice(0, 3) == 'dsc') {
+        sortObj = `{ "${req.query.sort
+          .split('-')
+          .pop()}": { "order": "desc" } }`;
+      }
+      sortString.push(JSON.parse(sortObj));
+    }
+
     if (!req.query.limit) {
       req.query.limit = 100;
     }
     let queryString = '';
-
     if (!req.query.query_string) {
       queryString = '';
     } else {
@@ -34,6 +50,7 @@ exports.doSearch = async (req, res) => {
     const documents = await client.search({
       index: req.params.index,
       body: {
+        sort: sortString,
         size: req.query.limit,
         query: {
           multi_match: {
@@ -64,6 +81,7 @@ exports.doSearch = async (req, res) => {
 
       for (const document of documentHits) {
         delete document._score;
+        delete document.sort;
         arrayOfValues.push(
           Object.assign(
             {},
@@ -90,6 +108,10 @@ exports.doSearch = async (req, res) => {
         arrayOfNumbers.push(i);
       }
     }
+    let fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+    if (fullUrl.indexOf('sort') > 1) {
+      fullUrl = fullUrl.slice(0, fullUrl.indexOf('sort') - 1);
+    }
 
     res.status(200).render('search', {
       title: 'Search',
@@ -102,6 +124,7 @@ exports.doSearch = async (req, res) => {
       index: req.params.index,
       limit: req.query.limit,
       queryString,
+      fullUrl,
     });
   } catch (err) {
     res.status(200).render('error', {
