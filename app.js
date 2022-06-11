@@ -7,6 +7,7 @@ const fs = require('fs');
 const indexRouter = require('./routes/indexRoutes');
 const documentRouter = require('./routes/documentRoutes');
 const searchRouter = require('./routes/searchRoutes');
+const infoRouter = require('./routes/indexInfoRoutes');
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/index', indexRouter);
 app.use('/document', documentRouter);
 app.use('/search', searchRouter);
+app.use('/info/', infoRouter);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {

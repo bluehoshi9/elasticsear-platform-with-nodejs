@@ -66,37 +66,39 @@ exports.getDocument = async (req, res) => {
 
     let documentHits = documents.hits.hits;
     //Extract keys and values
-    const arrayOfKeys = Object.keys(documentHits[0]._source);
-
-    const arrayOfValues = [];
-
-    for (const document of documentHits) {
-      delete document._score;
-      arrayOfValues.push(
-        Object.assign(
-          {},
-          Object.values(
-            Object.assign(
-              {},
-              ...(function _flatten(o) {
-                return [].concat(
-                  ...Object.keys(o).map((k) =>
-                    typeof o[k] === 'object' ? _flatten(o[k]) : { [k]: o[k] }
-                  )
-                );
-              })(document)
+    let arrayOfKeys = [];
+    let arrayOfValues = [];
+    let arrayOfNumbers = [];
+    if (documentHits.length > 0) {
+      arrayOfKeys = Object.keys(documentHits[0]._source);
+      arrayOfValues = [];
+      for (const document of documentHits) {
+        delete document._score;
+        arrayOfValues.push(
+          Object.assign(
+            {},
+            Object.values(
+              Object.assign(
+                {},
+                ...(function _flatten(o) {
+                  return [].concat(
+                    ...Object.keys(o).map((k) =>
+                      typeof o[k] === 'object' ? _flatten(o[k]) : { [k]: o[k] }
+                    )
+                  );
+                })(document)
+              )
             )
           )
-        )
-      );
-    }
+        );
+      }
 
-    //Number of columns
-    const columnNumber = Object.keys(arrayOfValues[0]).length;
+      //Number of columns
+      const columnNumber = Object.keys(arrayOfValues[0]).length;
 
-    const arrayOfNumbers = [];
-    for (let i = 0; i < columnNumber; i++) {
-      arrayOfNumbers.push(i);
+      for (let i = 0; i < columnNumber; i++) {
+        arrayOfNumbers.push(i);
+      }
     }
 
     res.status(200).render('document', {

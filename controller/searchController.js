@@ -27,39 +27,28 @@ exports.doSearch = async (req, res) => {
       });
       const stringObj = JSON.stringify(textObj);
 
-      if (
-        req.query.sort.slice(0, 3) == 'asc' &&
-        stringObj.includes('"type":"text"')
-      ) {
-        sortObj = `{ "${req.query.sort
-          .split('-')
-          .pop()}.keyword": { "order": "asc" } }`;
-      }
-      if (
-        req.query.sort.slice(0, 3) == 'dsc' &&
-        stringObj.includes('"type":"text"')
-      ) {
-        sortObj = `{ "${req.query.sort
-          .split('-')
-          .pop()}.keyword": { "order": "desc" } }`;
-      }
-      if (
-        req.query.sort.slice(0, 3) == 'asc' &&
-        (stringObj.includes('"type":"long"') ||
-          stringObj.includes('"type":"float"'))
-      ) {
-        sortObj = `{ "${req.query.sort
-          .split('-')
-          .pop()}": { "order": "asc" } }`;
-      }
-      if (
-        req.query.sort.slice(0, 3) == 'dsc' &&
-        (stringObj.includes('"type":"long"') ||
-          stringObj.includes('"type":"float"'))
-      ) {
-        sortObj = `{ "${req.query.sort
-          .split('-')
-          .pop()}": { "order": "desc" } }`;
+      if (stringObj.includes('"type":"text"')) {
+        if (req.query.sort.slice(0, 3) == 'asc') {
+          sortObj = `{ "${req.query.sort
+            .split('-')
+            .pop()}.keyword": { "order": "asc" } }`;
+        }
+        if (req.query.sort.slice(0, 3) == 'dsc') {
+          sortObj = `{ "${req.query.sort
+            .split('-')
+            .pop()}.keyword": { "order": "desc" } }`;
+        }
+      } else {
+        if (req.query.sort.slice(0, 3) == 'asc') {
+          sortObj = `{ "${req.query.sort
+            .split('-')
+            .pop()}": { "order": "asc" } }`;
+        }
+        if (req.query.sort.slice(0, 3) == 'dsc') {
+          sortObj = `{ "${req.query.sort
+            .split('-')
+            .pop()}": { "order": "desc" } }`;
+        }
       }
 
       sortString.push(JSON.parse(sortObj));

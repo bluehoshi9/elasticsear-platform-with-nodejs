@@ -22,5 +22,7 @@ html
         .element-index
           - indexUnderScore = index.split(' ').join('_');
           a(href=`/document/${indexUnderScore}`)= index
-          form(method='GET' action=`/index/${indexUnderScore}?_method=DELETE`)
-            button.btn.btn-index(type='submit') Delete
+          .div(style="display:flex;gap:10px")
+            form(method='GET' action=`/index/${indexUnderScore}/delete`)
+              button.btn.btn-index(type='submit') Delete
+            a.btn.btn-index(href=`/info/${indexUnderScore}` style="font-size:1.6rem;color:white") Info

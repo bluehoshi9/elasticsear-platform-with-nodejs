@@ -1,0 +1,44 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1.0')
+    link(rel="icon" type="image/png" href='/images/favicon.png')
+    link(rel='stylesheet' href='/css/style.css')
+    title Platform | #{title}
+  body
+    //NAV
+    include _header
+
+    - const indexModified = index.split('_').join(' ');
+    .info-container
+      .info-table
+        table.document-table
+          tr
+            th(colspan="2" style="text-align:center")= `"${indexModified}" Index Information`
+          tr
+            td(style="font-weight:600") UUID
+            td= uuid
+          tr
+            td(style="font-weight:600") Creation Date
+            td= creationDate
+          tr
+            td(style="font-weight:600") Number Of Shards
+            td= numberOfShards
+          tr
+            td(style="font-weight:600") Number Of Replicas
+            td= numberOfReplicas
+
+      .info-table
+        table.document-table
+          tr
+            th(style="width:300px") Field
+            th(style="width:200px") Type
+          each field in arrField
+            tr
+              td= field
+              td= typeObj[`${field}`]
+
+      .info-link
+        a.btn-left(href=`/index/`) < Back to Index
+        a.btn-right(href=`/document/${index}`)= `Go to document >`

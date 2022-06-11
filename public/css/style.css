@@ -201,7 +201,7 @@ body {
 
 .btn.btn-delete {
   height: 2px;
-  width:80%;
+  width: 80%;
   font-size: 1.4rem;
   padding: 0;
   margin: auto;
@@ -367,3 +367,50 @@ body {
 .field-result .dropbtn:hover {
   background-color: #8fb0c4;
 }
+
+.info-container {
+  width: 60%;
+  margin: 20px auto;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+}
+
+.info-container .info-table {
+  font-size: 2.4rem;
+}
+
+.info-container .info-link {
+  font-size: 3rem;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.info-table {
+  outline: 2px solid black;
+}
+
+.info-link a:link,
+.info-link a:visited {
+  text-decoration: none;
+  background-color: #30566e;
+  padding: 1.3rem;
+  color: white;
+  border-radius: 100px;
+}
+
+.info-link a:hover,
+.info-link a:active {
+  background-color: #3e6f8d;
+}
+
+.info-link .btn-left:link {
+  border-radius: 100px 0 0 100px;
+}
+.info-link .btn-right:link {
+  border-radius: 0 100px 100px 0;
+}
+
+
