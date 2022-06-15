@@ -24,7 +24,7 @@ html
                   a(href=`/search/${indexUnderScore}`)= index
         form.search-form(method='GET' action=`${searchAction}`) 
           .div
-            input#search-input(type="text" name='query_string' placeholder="Type something" required)
+            input#search-input(type="text" name='query_string' placeholder="Type something" required autofocus)
             input#limit-box(type="number" name='limit' placeholder="100" min="0" max="10000")
             input#search-submit(type="submit" value="Search")
 

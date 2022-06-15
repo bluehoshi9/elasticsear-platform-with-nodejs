@@ -12,6 +12,6 @@ html
 
     form.upload-form(action="/upload" enctype="multipart/form-data" method="POST" title="JSON file only!")
       .upload-container
-        input.upload-index(type="text" name='new_index' title ="Index name must between 1 - 100 character and not contain: [ , \", *, \, <, |, ,, ., >, /, ?]" placeholder="Type new index name" required)
+        input.upload-index(type="text" name='new_index' title ="Index name must between 1 - 100 character and not contain: [ , \", *, \, <, |, ,, ., >, /, ?]" placeholder="Type new index name" required autofocus)
         input.upload-file(type="file" name="myFile" accept="application/JSON" required)
         input.upload-submit(type="submit" value="Upload a file")

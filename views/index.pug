@@ -14,7 +14,7 @@ html
       .search-box 
         form.search-form(method='GET' action="/index"  title ="Index name must between 1 - 100 character and not contain: [ , \", *, \, <, |, ,, ., >, /, ?]") 
           .div 
-            input#search-input(type="text" name='new_index' placeholder="Type new index name" required)
+            input#search-input(type="text" name='new_index' placeholder="Type new index name" required autofocus)
             input#search-submit(type="submit" value="Create")
 
     .container-index
